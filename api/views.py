@@ -48,7 +48,7 @@ def task_update(request, pk, format=None):
     return Response(serializer.data)
 
 
-@api_view(['POST'])
+@api_view(['DELETE'])
 def task_delete(request, pk, format=None):
     task = Task.objects.get(id=pk)
     task.delete()
