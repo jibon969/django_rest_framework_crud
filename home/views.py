@@ -49,8 +49,27 @@ def student_create(request):
 
 @api_view(['POST'])
 def student_update(request, pk):
+    """
+    This function based view work for update single item in student table
+    :param request:
+    :param pk:
+    :return:
+    """
     stu = Student.objects.get(id=pk)
     serializer = StudentSerializer(instance=stu, data=request.data)
     if serializer.is_valid():
         serializer.save()
     return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+def student_delete(request, pk):
+    """
+    This function based view work for delete single item in student table
+    :param request:
+    :param pk:
+    :return:
+    """
+    stu = Student.objects.get(id=pk)
+    stu.delete()
+    return Response("Item successfully delete")
