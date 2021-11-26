@@ -9,6 +9,7 @@ from .serializers import StudentSerializer
 def student_api(request):
     api_url = {
         'list': 'student-list',
+        'create': 'create-student',
     }
 
     return Response(api_url)
@@ -29,4 +30,27 @@ def student_list(request):
     # print("stu : ", stu)
     serializer = StudentSerializer(stu, many=True)
     # print("serializer : ", serializer)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def student_create(request):
+    """
+    This function based view work create a new student
+    :param request:
+    :return:
+    Notes : request.data  # Handles arbitrary data.  Works for 'POST', 'PUT' and 'PATCH' methods.
+    """
+    serializer = StudentSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def student_update(request, pk):
+    stu = Student.objects.get(id=pk)
+    serializer = StudentSerializer(instance=stu, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
     return Response(serializer.data)
