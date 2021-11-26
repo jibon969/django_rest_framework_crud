@@ -45,3 +45,12 @@ def student_create(request):
     if serializer.is_valid():
         serializer.save()
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+def student_update(request, pk):
+    stu = Student.objects.get(id=pk)
+    serializer = StudentSerializer(instance=stu, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
